@@ -18,18 +18,13 @@ fun PlayerSelection() {
     val player = remember {
         mutableStateOf(String())
     }
-    val selectedX = remember {
-        mutableStateOf(false)
-    }
-    val selectedY = remember {
-        mutableStateOf(false)
-    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Choose What you wanna be")
+        Spacer(modifier = Modifier.padding(30.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
@@ -37,25 +32,21 @@ fun PlayerSelection() {
         ) {
             Button(onClick = {
                 player.value = "x"
-                selectedX.value = true
-                selectedY.value = false
-            }, modifier = Modifier.size(200.dp), colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Blue,
-                disabledBackgroundColor = Color.Gray,
-            ), enabled = selectedX.value
+            }, modifier = Modifier.size(100.dp), colors = ButtonDefaults.buttonColors(
+                backgroundColor = if (player.value == "x") Color.Cyan else Color.Gray,
+            )
             ) {
                 Text(text = "X", fontSize = 40.sp)
             }
             Button(onClick = {
                 player.value = "y"
-                selectedX.value = false
-                selectedY.value = true
-            }, modifier = Modifier.size(200.dp),colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Blue,
-                disabledBackgroundColor = Color.Gray,
-            ), enabled = selectedX.value) {
+            }, modifier = Modifier.size(100.dp),colors = ButtonDefaults.buttonColors(
+                backgroundColor = if (player.value =="y") Color.Cyan else Color.Gray ,
+            )) {
                 Text(text = "Y", fontSize = 40.sp)
             }
         }
+
+
     }
 }
