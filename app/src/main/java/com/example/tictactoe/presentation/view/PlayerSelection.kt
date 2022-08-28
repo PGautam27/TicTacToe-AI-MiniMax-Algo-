@@ -1,8 +1,6 @@
 package com.example.tictactoe.presentation.view
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,8 +20,8 @@ fun PlayerSelection() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Choose What you wanna be")
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "X")
+        Row(modifier = Modifier.fillMaxWidth()) {
+            
         }
     }
 }
