@@ -46,7 +46,9 @@ fun PlayerSelection() {
                 Text(text = "Y", fontSize = 40.sp)
             }
         }
-
-
+        Spacer(modifier = Modifier.padding(20.dp))
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Play")
+        }
     }
 }
