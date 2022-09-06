@@ -14,8 +14,10 @@ class PlayerViewModel(
     private val state1 = MutableLiveData(state)
     val state2 : LiveData<ViewState> = state1
 
-    init {
+    val aiPlayer = AiPlayer(state2)
 
+    init {
+        aiPlayer()
     }
 
     val humanOrAi = MutableLiveData<String>(state1.value?.info)
@@ -23,12 +25,12 @@ class PlayerViewModel(
     private fun aiPlayer(){
         viewModelScope.launch(Dispatchers.IO) {
             if (humanOrAi.value == "Next player: O"){
-
+                state1.value = aiPlayer.chooseBoard(state2.value!!)
             }
         }
     }
 
-    val aiPlayer = AiPlayer(state2)
+
 
     fun onSquareSelected(index:Int){
         state1.value = state1.value?.selectSquare(index)
