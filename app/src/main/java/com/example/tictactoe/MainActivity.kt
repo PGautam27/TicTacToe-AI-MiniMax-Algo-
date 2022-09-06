@@ -10,15 +10,23 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.example.tictactoe.presentation.view.GamePlay
 import com.example.tictactoe.presentation.view.PlayerSelection
+import com.example.tictactoe.presentation.view.PlayerViewModel
+import com.example.tictactoe.presentation.view.PlayerViewModelFactory
+import com.example.tictactoe.presentation.view.state.ViewState
 import com.example.tictactoe.ui.theme.TicTacToeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModelFactory = PlayerViewModelFactory(ViewState())
+        val viewModel = ViewModelProvider(this,viewModelFactory).get(PlayerViewModel::class.java)
         setContent {
             TicTacToeTheme {
-                PlayerSelection()
+                //PlayerSelection()
+                GamePlay(viewModel = viewModel)
             }
         }
     }

@@ -1,19 +1,32 @@
 package com.example.tictactoe.presentation.view
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.example.tictactoe.presentation.view.smartAi.AiPlayer
 import com.example.tictactoe.presentation.view.state.ViewState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class PlayerViewModel(
-    private val state : ViewState
+    state : ViewState
 ):ViewModel() {
 
     private val state1 = MutableLiveData(state)
     val state2 : LiveData<ViewState> = state1
+
+    init {
+
+    }
+
+    val humanOrAi = MutableLiveData<String>(state1.value?.info)
+
+    private fun aiPlayer(){
+        viewModelScope.launch(Dispatchers.IO) {
+            if (humanOrAi.value == "Next player: O"){
+
+            }
+        }
+    }
 
     val aiPlayer = AiPlayer(state2)
 
@@ -24,7 +37,6 @@ class PlayerViewModel(
     fun onPlayAgainClicked(){
         state1.value = ViewState()
     }
-
 
 }
 
