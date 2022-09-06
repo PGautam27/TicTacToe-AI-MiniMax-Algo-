@@ -8,6 +8,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,15 +21,20 @@ import com.example.tictactoe.presentation.view.state.ViewState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GamePlay() {
+fun GamePlay(viewModel : PlayerViewModel ) {
+
+    val state1 = viewModel.state2.observeAsState()
+
     var state by remember { mutableStateOf(ViewState()) }
 
     fun onSquareSelected(index: Int) {
-        state = state.selectSquare(index)
+        viewModel.onSquareSelected(index)
+       // state = state.selectSquare(index)
     }
 
     fun onPlayAgainClicked() {
-        state = ViewState()
+        viewModel.onPlayAgainClicked()
+        //state = ViewState()
     }
     Column(
         modifier = Modifier
@@ -43,19 +49,23 @@ fun GamePlay() {
             color = Color.Black
         )
         Spacer(modifier = Modifier.padding(LocalConfiguration.current.screenHeightDp.dp/30))
-        Text(
-            modifier = Modifier.padding(bottom = 16.dp),
-            text = state.info,
-            color = Color.Black,
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.Bold
-        )
-        Board(
-            squares = state.squares,
-            isBoardEnabled = !state.isFinished,
-            onClick = ::onSquareSelected,
-        )
-        if (state.isFinished) {
+        state1.value?.let {
+            Text(
+                modifier = Modifier.padding(bottom = 16.dp),
+                text = it.info,
+                color = Color.Black,
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        state1.value?.let {
+            Board(
+                squares = it.squares,
+                isBoardEnabled = !it.isFinished,
+                onClick = ::onSquareSelected,
+            )
+        }
+        if (state1.value?.isFinished == true) {
             Button(
                 modifier = Modifier.padding(top = 16.dp),
                 border = BorderStroke(1.dp, Color.Black),
