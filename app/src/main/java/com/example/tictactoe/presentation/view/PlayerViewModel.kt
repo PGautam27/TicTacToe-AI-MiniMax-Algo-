@@ -1,5 +1,6 @@
 package com.example.tictactoe.presentation.view
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.tictactoe.presentation.view.smartAi.AiPlayer
 import com.example.tictactoe.presentation.view.state.ViewState
@@ -16,24 +17,42 @@ class PlayerViewModel(
 
     val aiPlayer = AiPlayer(state2)
 
-    init {
-        aiPlayer()
-    }
+//    init {
+//        aiPlayer()
+//    }
 
     val humanOrAi = MutableLiveData<String>(state1.value?.info)
 
-    private fun aiPlayer(){
-        viewModelScope.launch(Dispatchers.IO) {
-            if (humanOrAi.value == "Next player: O"){
-                state1.value = aiPlayer.chooseBoard(state2.value!!)
+//    private fun aiPlayer(){
+//        viewModelScope.launch(Dispatchers.Main) {
+//            Log.v("working","Let's see")
+//            if (state2.value?.info == "Next player: O"){
+//                Log.v("working","super")
+//                    chooseBoard()
+//            }
+//        }
+//    }
+
+    fun RandomComputerPlayer() {
+        val indexValues = state1.value?.squares
+//        val predicate : (String) -> Boolean = {it == ""}
+        val listIndexes = ArrayList<Int>()
+        indexValues?.forEachIndexed { index, s ->
+            if (s == "") {
+                listIndexes.add(index)
             }
         }
+        onSquareSelected(listIndexes.random())
     }
-
-
 
     fun onSquareSelected(index:Int){
         state1.value = state1.value?.selectSquare(index)
+        viewModelScope.launch(Dispatchers.Main) {
+            if (state2.value?.info == "Next player: O"){
+                Log.v("working","super")
+                RandomComputerPlayer()
+            }
+        }
     }
 
     fun onPlayAgainClicked(){
